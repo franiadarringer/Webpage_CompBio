@@ -7,17 +7,17 @@
     "text": "About this site"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Webpage_CompBio",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nhomework 1"
-  },
-  {
     "objectID": "docs/homework1.html",
     "href": "docs/homework1.html",
     "title": "homework 1",
     "section": "",
     "text": "this is my homework 1\ncan you see ts"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Webpage_CompBio",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nhomework 1"
   }
 ]
