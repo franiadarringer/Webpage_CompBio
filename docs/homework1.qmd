@@ -1,7 +1,0 @@
----
-title: "homework 1"
-format: html
----
-this is my homework 1
-
-can you see ts
