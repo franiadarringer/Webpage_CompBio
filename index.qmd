@@ -6,6 +6,6 @@ This is a Quarto website.
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
-[homework 1](http://localhost:3575/docs/homework1.html)
+[homework 1](homework1.html)
 
-[lab 3](http://localhost:5710/lab_3.html)
+[lab 3](lab_3.html)
