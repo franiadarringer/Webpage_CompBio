@@ -74,3 +74,4 @@ integers %% 7 == 0
 divide <- (integers %% 2 == 0) | (integers %% 3 == 0) | (integers %% 7 == 0)
 divide_new <- !divide
 divide_new
+integers[divide_new]
