@@ -88,3 +88,44 @@ head(df3)
 
 char_var <- rep("T", 13)
 df3$charV <- char_var
+
+# distinctions between DFs and mat dims
+z_mat <- matrix(data = 1:30, ncol = 3, byrow = T)
+z_dframe <- as.data.frame(z_mat)
+
+str(z_mat)
+str(z_dframe)
+
+head(z_dframe)
+z_dframe$V2
+
+z_dframe[,3]
+z_mat[,3]
+
+z_dframe[2]
+z_mat[2]
+
+# missing data in DFs and mats
+zd <- runif(10)
+zd
+
+# complete cases
+complete.cases(zd)
+
+# which positions are missing
+which(complete.cases(zd))
+
+# missing data in a matrix
+m <- matrix(1:20, nrow = 5)
+
+# add missing data
+m[1,1] <- NA
+m[5,4] <- NA
+
+complete.cases(m)
+
+# subsetting
+m <- matrix(data = 1:12, nrow = 3)
+print(m)
+
+dimnames(m) <- list(paste("Species", LETTERS[1:nrow(m)], sep = ""), paste("Site", 1:ncol(m), sep = ""))
