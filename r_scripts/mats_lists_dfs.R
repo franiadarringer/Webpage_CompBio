@@ -129,3 +129,13 @@ m <- matrix(data = 1:12, nrow = 3)
 print(m)
 
 dimnames(m) <- list(paste("Species", LETTERS[1:nrow(m)], sep = ""), paste("Site", 1:ncol(m), sep = ""))
+
+# element-wise subsetting
+m[1:2, 3:4]
+m[c("SpeciesA", "SpeciesB"), c("Site3", "Site4")]
+
+colSums(m)
+m[colSums(m) > 15]
+
+saveRDS(my_data, file = "path/to/my/filename.rds") # .rds suffix not required
+
