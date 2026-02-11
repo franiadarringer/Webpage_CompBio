@@ -1,0 +1,40 @@
+# hw 5, 2/11
+# frania darringer
+
+# question 1
+log_growth <- function(N0, r, K, tfinal, tstep) {
+  time <- seq(from = 0, to = tfinal, by = tstep)
+  n_t <- K / (1 + ((K - N0) / N0) * exp(-r * time))
+  output <- data.frame(
+    time = time,
+    population = n_t
+  )
+  return(output)
+}
+
+result <- log_growth(
+  N0 = 10,
+  r = 0.1,
+  K = 100,
+  tfinal = 50,
+  tstep = 0.1
+)
+
+
+
+# question 2
+library(tidyverse)
+library(ggplot2)
+
+plot_growth <- function(df) {
+  ggplot(df, aes(x = time, y = population)) +
+    geom_line() +
+    labs(
+      x = "time",
+      y = "pop size",
+      title = "log pop growth"
+    ) +
+    theme_minimal()
+}
+
+plot_growth(result)

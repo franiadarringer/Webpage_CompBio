@@ -30,6 +30,11 @@ my_func_2 <- function(first, second){
 
 }
 
+my_bad_func <- function(a=3){
+  z <- a+b
+  return(z)
+}
+
 # regression function
 # function: fit_linear
 # purpose: fits a simple lin reg
@@ -44,3 +49,5 @@ fit_linear <- function(x=runif(20), y=runif(20)){
   return(my_out)
 }
 fit_linear()
+
+# 

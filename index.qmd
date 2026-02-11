@@ -11,3 +11,5 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 [lab 3](lab_3.html)
 
 [lab 4](lab_4.html)
+
+[homework 5](hw_5.html)
