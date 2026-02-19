@@ -37,3 +37,4 @@ qplot(x=1:100, y=ran_walk(lamda=0.92, noise_sd=0), geom="line")
 
 # add some stochasistisy back, make lamda > 1
 qplot(x=1:100, y=ran_walk(lamda=1.11, noise_sd=2), geom="line")
+

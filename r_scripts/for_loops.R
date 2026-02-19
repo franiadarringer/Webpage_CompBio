@@ -74,32 +74,6 @@ for (i in seq_along(r_vec)){
   container_vec[i] <- max_n
 }
 
-# create a random walk function
-# name: ran_walk
-# purpose: conducts a random walk
-# input: times = number of time steps
-#        n1 = initial pop size
-#        lamda = finite rate of increase
-#        noise_sd = 10
-# output: vector n with population size > 0 until extinction
-
-library(ggplot2)
-ran_walk <- function(times=100, n1=50, lamda=1, noise_sd=10){
-  n <- rep(NA, times) # create our output vector
-  n[1] <- n1 # initialize init pop size
-  noise <- rnorm(n=100, mean=0, sd=noise_sd)
-
-  for (i in 1:(times-1)){
-    n[i+1] <- lamda*n[i] + noise[i]
-    if(n[i+1]<= 0){
-      n[i+1] <- NA
-      cat("population extinction at time", i+1, "\n")
-      break
-    }
-  }
-  return(n)
-}
-
 
 
 
