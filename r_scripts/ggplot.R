@@ -99,3 +99,52 @@ p1 <- ggplot(data = d, mapping = aes(x = displ, y = cty))+
   ylim(0, 50)
 
 p1
+
+p2 <- ggplot(data = d, mapping = aes(x=fl, fill=fl))+
+  geom_bar()+
+  labs(fill = "Fuel Type", x = "Fuel Type", y = "Count")
+
+print(p2)
+
+# multi panel plots
+library(patchwork)
+library(ggthemes)
+
+g1 <- ggplot(data = d) +
+  aes(x=displ, y=cty) +
+  geom_point() +
+  geom_smooth()
+g2 <- ggplot(data = d) +
+  aes(x=fl) +
+  geom_bar(fill="tomato", color="black")
+g3 <- ggplot(data = d) +
+  aes(x=displ) +
+  geom_histogram(fill="royalblue", color = "black")
+g4 <- ggplot(data = d) +
+  aes(x=fl, y=cty, fill=fl) +
+  geom_boxplot() +
+  theme(legend.position = "none")
+
+g1 + g2
+g1 + g2 + g3 + plot_layout(ncol = 1)
+
+# changing relative area of each plot
+g1 + g2 + plot_layout(ncol = 1, heights = c(2,1))
+
+# add a spacer
+g1 + plot_spacer() + g2
+
+# nested layers
+g1 + {
+  g2 + {
+    g3 +
+      g4 +
+      plot_layout(ncol = 1)
+  }
+} + 
+  plot_layout(ncol = 1)
+
+(g1 | g2 | g3) / g4 + plot_annotation("title here")
+
+
+
