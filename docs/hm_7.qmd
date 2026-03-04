@@ -1,3 +1,10 @@
+---
+title: "homework 7 frania darringer"
+format: html
+---
+
+
+```{r}
 # frania darringer
 
 library(dplyr)
@@ -66,3 +73,5 @@ iris_long <- iris %>%
   select(Species, Measure, Value)
 
 head(iris_long)
+
+```

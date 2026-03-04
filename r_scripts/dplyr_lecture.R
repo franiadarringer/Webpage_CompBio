@@ -105,3 +105,4 @@ pivotsw <- starwars %>%
   pivot_wider(names_from=homeworld, values_from=name)
 
 print(pivotsw)
+
