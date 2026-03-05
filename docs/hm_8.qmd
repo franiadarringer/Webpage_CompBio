@@ -1,0 +1,109 @@
+---
+title: "homework 8 frania darringer"
+format: html
+---
+
+
+```{r}
+count_zeros_loop <- function(x) {
+  counter <- 0
+  for (i in seq_along(x)) {
+    if (x[i] == 0) {
+      counter <- counter + 1
+    }
+  }
+  return(counter)
+}
+
+count_zeros_loop(c(0, 1, 0, 2, 3, 0))
+
+
+count_zeros_subset <- function(x) sum(x == 0)
+
+count_zeros_subset(c(0, 1, 0, 2, 3, 0))
+
+rowcol_product_matrix <- function(n_rows, n_cols) {
+  mat <- outer(1:n_rows, 1:n_cols, FUN = "*")
+  return(mat)
+}
+
+rowcol_product_matrix(4, 5)
+
+library(dplyr)
+library(ggplot2)
+
+set.seed(123)
+
+n_per_group <- 30
+true_means <- c(A = 2, B = 5, C = 9)
+sigma <- 1.5
+
+df <- tibble(
+  group = rep(names(true_means), each = n_per_group),
+  y = c(
+    rnorm(n_per_group, mean = true_means["A"], sd = sigma),
+    rnorm(n_per_group, mean = true_means["B"], sd = sigma),
+    rnorm(n_per_group, mean = true_means["C"], sd = sigma)
+  )
+)
+
+orig_means <- df %>% group_by(group) %>% summarize(mean_y = mean(y), .groups = "drop")
+orig_means
+
+
+reshuffle_group_means <- function(dat) {
+  dat_shuf <- dat
+  dat_shuf$y <- sample(dat_shuf$y, replace = FALSE)  
+
+  m <- tapply(dat_shuf$y, dat_shuf$group, mean)      
+  m <- m[sort(names(m))]
+  return(as.numeric(m))
+}
+
+reshuffle_group_means(df)
+
+
+B <- 100
+
+groups_sorted <- sort(unique(df$group))
+res_mat <- matrix(NA_real_, nrow = B, ncol = length(groups_sorted))
+colnames(res_mat) <- paste0("mean_", groups_sorted)
+
+for (b in 1:B) {
+  res_mat[b, ] <- reshuffle_group_means(df)
+}
+
+res_df <- as.data.frame(res_mat)
+res_df$replicate <- 1:B
+
+res_df <- res_df[, c("replicate", paste0("mean_", groups_sorted))]
+
+head(res_df)
+
+qplot(res_df$mean_A, bins = 20, main = "reshuffled means group a", xlab = "mean a", ylab = "count")
+qplot(res_df$mean_B, bins = 20, main = "reshuffled means group b", xlab = "mean b", ylab = "count")
+qplot(res_df$mean_C, bins = 20, main = "reshuffled means group c", xlab = "mean c", ylab = "count")
+
+res_long <- res_df %>%
+  tidyr::pivot_longer(
+    cols = starts_with("mean_"),
+    names_to = "group",
+    values_to = "mean_shuffled"
+  ) %>%
+  mutate(group = sub("^mean_", "", group))
+
+ggplot(res_long, aes(x = mean_shuffled, fill = group)) +
+  geom_histogram(position = "identity", alpha = 0.35, bins = 25) +
+  geom_vline(
+    data = orig_means,
+    aes(xintercept = mean_y, color = group),
+    linewidth = 1,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "randomization (reshuffled) group vs. original means",
+    x = "group mean after reshuffle",
+    y = "count",
+    fill = "group"
+  ) 
+```
