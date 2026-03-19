@@ -1,7 +1,7 @@
 # frania darringer 3/17
 
 # installing libraries
-import numpi as np
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -37,3 +37,4 @@ type(nums[0]) # type returns highest level object type
 
 # ranged indexing
 mixed[1:4]
+
