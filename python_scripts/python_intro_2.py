@@ -55,3 +55,19 @@ arr1[-1]
 arr1[:3]
 arr1[1:5]
 
+# 3/24
+random = arr1
+x = random.normal(loc=5, scale=3, size=20)
+
+x = random.binomial(n=10, p=0.5, size=30)
+
+random.uniform(low=1, high=10, size=50)
+
+# logic structures
+# if statements
+a = 3
+if a  >= 5:
+    print("a is greater than or equal to 5")
+
+a
+
