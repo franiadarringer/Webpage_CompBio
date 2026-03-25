@@ -2,26 +2,32 @@
 title: "homework 10 frania darringer"
 format: html
 ---
-
-
+QUESTION 1
 ```{python}
-# homework 10 frania darringer
-
+# making my list
 my_list = [33, "oogabooga", True, [10, 20, 30, 40], 3.33]
 
+# pull out third element in the list & store it as a new object
 third_element = my_list[2]
 print(third_element)
 
+# list within a list
 interior_list = my_list[3]
 list_within_list = interior_list[2]
 print(list_within_list)
 
+# pop and append functions
 my_list.append("new item")
 print(my_list)
 
 my_list.pop(1)
 print(my_list)
 
+```
+
+QUESTION 2
+```{python}
+# creating my dictionary
 my_dict = {
     "name": "frania",
     "fruit": "mango",
@@ -30,37 +36,53 @@ my_dict = {
     "likes_bikes": True
 }
 
+# printing keys and values
 print(my_dict.keys)
 print(my_dict.values)
 
+# adding to dictionary
 my_dict.update({"minor": "spanish"})
 
+# deleting from dictionary
 my_dict.pop("fruit")
 
 print(my_dict)
 
+# add new element
 my_dict["favorite_tree"] = "sugar maple"
 
+# remove element
 del my_dict["gpa"]
 
 print(my_dict)
 
+```
+
+QUESTION 3
+```{python}
+# import numpy
 import numpy as np  # noqa: E402 # idk python just put that there
 
+# numpy array of length 100 with values bound between 0 and 1
 arr1 = np.random.rand(100)
 
+# last 10 elements using negative indexing
 last_10 = arr1[-10:]
 print(last_10)
 
+#  numeric (float) data to char str then convert back to a float
 arr_str = arr1.astype(str)
 arr_float_again = arr_str.astype(float)
 
+# reshaping 10x10
 arr2D = arr1.reshape(10, 10)
 print(arr2D.shape)
 
+# 10x10 binary array
 arr_bin = np.random.choice([0, 1], size=(10, 10), p=[0.8, 0.2])
 print(arr_bin)
 
+# 10x10x2 3d data cube
 arr_3D = np.stack((arr2D, arr_bin), axis=2)
 print(arr_3D.shape)
 
