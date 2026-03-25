@@ -22,3 +22,4 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 [homework 9](hw_9.html)
 
+[homework 10](hw_10.html)
