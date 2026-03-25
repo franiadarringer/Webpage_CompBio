@@ -1,0 +1,62 @@
+library(ggplot2)
+library(dplyr)
+
+plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(size = 3, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "relationship between car weight and fuel efficiency",
+    x = "car weight (1000 lbs)",
+    y = "mpg"
+  ) +
+  theme_minimal()
+
+plot
+
+plot2 <- ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = NA) +
+  geom_jitter(width = 0.15, alpha = 0.7, size = 2) +
+  labs(
+    title = "sepal length across iris species",
+    x = "species",
+    y = "sepal length (cm)"
+  ) +
+  theme_minimal()
+
+plot2
+
+mtcars2 <- mtcars %>%
+  mutate(am = as.numeric(am))
+
+plot3 <- ggplot(mtcars2, aes(x = wt, y = am)) +
+  geom_jitter(height = 0.08, width = 0, alpha = 0.7, size = 2) +
+  geom_smooth(
+    method = "glm",
+    method.args = list(family = "binomial"),
+    se = TRUE
+  ) +
+  labs(
+    title = "probability of manual transmission by car weight",
+    x = "car weight (1000 lbs)",
+    y = "transmission (0 = automatic, 1 = manual)"
+  ) +
+  theme_minimal()
+
+plot3
+
+mtcars3 <- mtcars %>%
+  mutate(
+    cyl = factor(cyl),
+    am = factor(am, levels = c(0, 1), labels = c("automatic", "manual"))
+  )
+
+plot4 <- ggplot(mtcars3, aes(x = cyl, fill = am)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "transmission type across cylinder groups",
+    x = "number of cylinders",
+    y = "count",
+    fill = "transmission"
+  ) 
+
+plot4
