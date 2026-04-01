@@ -1,9 +1,5 @@
-from scipy.stats import boxcox_normplot
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_iris
-
-ds = load_iris()
 
 # long form data set
 ds_long = pd.melt(ds, id_vars = ['species'], value = "sepal_width", "sepal_length", "petal_width", "petal_length")
@@ -70,3 +66,4 @@ sns.move_legend(
 )
 
 sns.catplot(data = ds_long, kind = "bar", x = "species", y = "vals", hue = "vars")
+
