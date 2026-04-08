@@ -24,4 +24,6 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 [homework 10](hw_10.html)
 
-[homework 11](/Users/frances/Desktop/GitHub/hw_11_project/ca_sir_driver.html)
+[homework 11 repository](https://github.com/franiadarringer/hw_11_project)
+
+[homework 11 graph](Screenshot%202026-04-08%20at%202.11.06%E2%80%AFPM.png)
