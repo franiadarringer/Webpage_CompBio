@@ -1,0 +1,72 @@
+---
+title: "frania darringer homework 12"
+format: html
+---
+I added the argument projection="natural earth" to the choropleth map. This changed the map by giving it a smoother, more standard world map appearance that made Europe easier to view clearly.
+
+I added the argument projection="orthographic" to the bubble map. This changed the map by making it look like a globe, which made the visualization more visually interesting and helped show the countries in a round Earth view.
+
+```{python}
+import plotly.express as px
+import pandas as pd
+
+gapminder = px.data.gapminder()
+
+# Q1 choropleth map of gdp per capita in Europe
+year1 = 2007
+
+europe_df = gapminder[
+    (gapminder["continent"] == "Europe") &
+    (gapminder["year"] == year1)
+]
+
+fig1 = px.choropleth(
+    europe_df,
+    locations="iso_alpha",
+    locationmode="ISO-3",
+    color="gdpPercap",
+    hover_name="country",
+    hover_data={
+        "gdpPercap": ":,.2f",
+        "pop": ":,",
+        "iso_alpha": False
+    },
+    color_continuous_scale="Viridis",
+    title=f"gdp per capita in europe ({year1})",
+    labels={
+        "gdpPercap": "gdp per capita",
+        "pop": "population"
+    },
+    projection="natural earth"
+)
+
+fig1.show()
+
+# Q2 bubble map of population
+year2 = 2007
+
+world_df = gapminder[gapminder["year"] == year2]
+
+fig2 = px.scatter_geo(
+    world_df,
+    locations="iso_alpha",
+    locationmode="ISO-3",
+    size="pop",
+    color="continent",
+    hover_name="country",
+    hover_data={
+        "pop": ":,",
+        "lifeExp": ":.1f",
+        "iso_alpha": False
+    },
+    title=f"world population bubble map ({year2})",
+    labels={
+        "pop": "population",
+        "lifeExp": "life expectancy"
+    },
+    projection="orthographic",          
+    opacity=0.75
+)
+
+fig2.show()
+```

@@ -27,3 +27,5 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 [homework 11 repository](https://github.com/franiadarringer/hw_11_project)
 
 [homework 11 graph](Screenshot%202026-04-08%20at%202.11.06%E2%80%AFPM.png)
+
+[homework 13](hw_13.html)
