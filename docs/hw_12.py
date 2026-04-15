@@ -1,28 +1,29 @@
-# frania darringer hw 12
-
 import plotly.express as px
 import pandas as pd
 
-# loading gapminder
 gapminder = px.data.gapminder()
 
-# picking my year
-year1 = 2013
+# Q1 choropleth map of gdp per capita in Europe
+year1 = 2007
 
-europe = gapminder[
-    (gapminder["continent"] == "europe") &
+europe_df = gapminder[
+    (gapminder["continent"] == "Europe") &
     (gapminder["year"] == year1)
 ]
 
-print(europe)
-
 fig1 = px.choropleth(
-    locations="europe",
+    europe_df,
+    locations="iso_alpha",
     locationmode="ISO-3",
     color="gdpPercap",
-    color_continuous_scale="Viridis_r",
-    scope=europe,
-    title="gdp per capita in europe 2013",
+    hover_name="country",
+    hover_data={
+        "gdpPercap": ":,.2f",
+        "pop": ":,",
+        "iso_alpha": False
+    },
+    color_continuous_scale="Viridis",
+    title=f"gdp per capita in europe ({year1})",
     labels={
         "gdpPercap": "gdp per capita",
         "pop": "population"
@@ -32,4 +33,31 @@ fig1 = px.choropleth(
 
 fig1.show()
 
-pd.dtype('gdpPercap')
+# Q2 bubble map of population
+year2 = 2007
+
+world_df = gapminder[gapminder["year"] == year2]
+
+fig2 = px.scatter_geo(
+    world_df,
+    locations="iso_alpha",
+    locationmode="ISO-3",
+    size="pop",
+    color="continent",
+    hover_name="country",
+    hover_data={
+        "pop": ":,",
+        "lifeExp": ":.1f",
+        "iso_alpha": False
+    },
+    title=f"world population bubble map ({year2})",
+    labels={
+        "pop": "population",
+        "lifeExp": "life expectancy"
+    },
+    projection="orthographic",          
+    opacity=0.75
+)
+
+fig2.show()
+
