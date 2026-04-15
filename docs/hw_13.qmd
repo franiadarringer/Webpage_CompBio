@@ -1,0 +1,81 @@
+---
+title: "frania darringer homework 13"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(gapminder)
+library(ggeffects)
+library(MASS)
+
+data("gapminder")
+
+gap <- gapminder %>%
+  mutate(
+    country = factor(country),
+    continent = factor(continent),
+    year_centered = year - mean(year)
+  )
+```
+
+QUESTION 1
+Does life expectancy change over time differently across continents?
+Hyp: Life expectancy increases over time, but the pattern differs by continent.
+For this question, I used the gapminder dataset to test whether life expectancy changed over time differently among continents. I used a linear mixed model because life expectancy is a continuous variable, and the dataset includes repeated measurements from the same countries across multiple years. To account for that repeated structure, I included country as a random effect. I also included an interaction between year and continent so I could test whether the slope of change over time differed across continents. The model results show that life expectancy generally increased over time, but the amount of change was not the same for every continent. This supports my hypothesis that trends in life expectancy vary across continents rather than following one single global pattern.
+
+```{r}
+mod1 <- lmer(lifeExp ~ year_centered * continent + (1 | country), data = gap)
+
+summary(mod1)
+
+anova(mod1)
+
+pred1 <- ggpredict(mod1, terms = c("year_centered [all]", "continent"))
+pred1_df <- as.data.frame(pred1)
+
+ggplot(pred1_df, aes(x = x + mean(gap$year), y = predicted, color = group, fill = group)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.15, color = NA) +
+  labs(
+    title = "predicted change in life expectancy over time by continent",
+    x = "yr",
+    y = "predicted life expectancy",
+    color = "continent",
+    fill = "continent"
+  ) +
+  theme_minimal()
+
+```
+
+QUESTION 2
+Does population change over time differently across continents?
+Hyp: Population tends to increase over time, and the rate of increase differs by continent.
+For this question, I tested to see whether population changed over time differently across continents using the same gapminder dataset as Q1. I chose a negative binomial generalized linear mixed model because population is a non-Gaussian response variable and is very right-skewed, making a standard linear model less appropriate. I again included country as a random effect because each country appears multiple times in the dataset. I also included an interaction between year and continent so I could see whether population trends through time differed among continents. The results tell us that population changes over time are not identical across continents, which means the relationship between year and population depends partly on region. 
+
+```{r}
+mod2 <- glmer.nb(pop ~ year_centered * continent + (1 | country), data = gap)
+
+summary(mod2)
+
+mod2_no_interaction <- glmer.nb(pop ~ year_centered + continent + (1 | country), data = gap)
+
+anova(mod2_no_interaction, mod2)
+
+pred2 <- ggpredict(mod2, terms = c("year_centered [all]", "continent"))
+pred2_df <- as.data.frame(pred2)
+
+ggplot(pred2_df, aes(x = x + mean(gap$year), y = predicted, color = group, fill = group)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.15, color = NA) +
+  labs(
+    title = "predicted population change over time by continent",
+    x = "yr",
+    y = "predicted population",
+    color = "continent",
+    fill = "continent"
+  ) +
+  theme_minimal()
+```
