@@ -1,0 +1,113 @@
+---
+title: "homework 14 frania darringer"
+format: html
+---
+
+
+```{r}
+library(tidyverse)
+library(randomForest)
+library(vegan)
+
+data(iris)
+
+iris$Species <- as.factor(iris$Species)
+
+iris_numeric <- iris %>%
+  select(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width)
+
+pca <- prcomp(iris_numeric, scale. = TRUE)
+
+summary(pca)
+
+variance_explained <- summary(pca)$importance[2, ] * 100
+variance_explained
+
+pca_scores <- as.data.frame(pca$x)
+pca_scores$Species <- iris$Species
+
+ggplot(pca_scores, aes(x = PC1, y = PC2, color = Species)) +
+  geom_point(size = 3, alpha = 0.8) +
+  stat_ellipse(level = 0.95) +
+  theme_minimal() +
+  labs(
+    title = "pca of iris measurements",
+    x = paste0("pc1 (", round(variance_explained[1], 1), "%)"),
+    y = paste0("pc2 (", round(variance_explained[2], 1), "%)")
+  )
+
+scree_data <- data.frame(
+  PC = paste0("pc", 1:length(pca$sdev)),
+  Eigenvalue = pca$sdev^2
+)
+
+ggplot(scree_data, aes(x = PC, y = Eigenvalue, group = 1)) +
+  geom_point(size = 3) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = "scree plot",
+    x = "principal component",
+    y = "eigenvalue"
+  )
+
+bstick <- bstick(pca)
+bstick
+
+broken_stick_results <- data.frame(
+  PC = paste0("PC", 1:length(pca$sdev)),
+  Eigenvalue = pca$sdev^2,
+  BrokenStick = bstick
+)
+
+broken_stick_results %>%
+  mutate(Keep_PC = Eigenvalue > BrokenStick)
+
+adonis_result <- adonis2(iris_numeric ~ Species, data = iris, method = "euclidean")
+adonis_result
+
+loadings <- as.data.frame(pca$rotation)
+loadings
+
+loadings %>%
+  arrange(desc(abs(PC1))) %>%
+  select(PC1)
+
+loadings %>%
+  arrange(desc(abs(PC2))) %>%
+  select(PC2)
+
+set.seed(123)
+
+rf_model <- randomForest(
+  Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  data = iris,
+  importance = TRUE,
+  ntree = 500
+)
+
+rf_model
+
+rf_model$confusion
+
+conf_matrix <- rf_model$confusion[, 1:3]
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+
+importance(rf_model)
+
+varImpPlot(rf_model, type = 1, main = "mean decrease accuracy")
+
+varImpPlot(rf_model, type = 2, main = "mean decrease gini")
+
+importance_table <- as.data.frame(importance(rf_model))
+importance_table
+
+importance_table %>%
+  arrange(desc(MeanDecreaseAccuracy))
+
+importance_table %>%
+  arrange(desc(MeanDecreaseGini))
+
+```
+
+The two models mostly agreed on which variables were important. Petal length and petal width came out as the most important in both the PCA and the random forest, while sepal measurements mattered less overall. The main difference is how they look at the data. PCA is more about showing patterns and how groups separate based on variation, so it helps you visualize differences. Random forest is more about predicting group membership, so it focuses on which variables help classify things correctly. So even though they pointed to similar important variables, they’re kind of answering different questions.
